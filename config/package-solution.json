@@ -1,0 +1,12 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "spfx-list-chart-client-side-solution",
+    "id": "bb22396c-30f5-4a03-9df9-6a9d9aebe17a",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true
+  },
+  "paths": {
+    "zippedPackage": "solution/spfx-list-chart.sppkg"
+  }
+}
