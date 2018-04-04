@@ -1,6 +1,6 @@
-import { IWebPartContext } from "@microsoft/sp-webpart-base/lib";
+import { IWebPartContext } from "@microsoft/sp-webpart-base";
 import { IDataHelper } from "./DataHelperBase";
-import { Environment, EnvironmentType } from "@microsoft/sp-core-library/lib";
+import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
 import { DataHelperMock } from "./DataHelperMock";
 import { DataHelperSP } from "./DataHelperSP";
 

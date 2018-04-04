@@ -24,7 +24,7 @@ export class DataHelperMock implements IDataHelper {
     public getLists(): Promise<ISPList[]> {
         return new Promise<ISPList[]>((resolve) => {
             resolve(DataHelperMock._lists);
-        })
+        });
     }
 
     /**

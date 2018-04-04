@@ -1,7 +1,7 @@
 import { ISPList, ISPView, ISPLists, ISPViews } from "../common/SPEntities";
 import { IDataHelper } from "./DataHelperBase";
-import { IWebPartContext } from "@microsoft/sp-webpart-base/lib";
-import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http/lib";
+import { IWebPartContext } from "@microsoft/sp-webpart-base";
+import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 
 /**
  * List with views interface

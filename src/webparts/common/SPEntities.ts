@@ -28,3 +28,12 @@ export interface ISPView {
 export interface ISPViews {
     value: ISPView[];
 }
+
+export interface ISPField {
+    Title: string;
+    Id: string;
+}
+
+export interface ISPFields {
+    value: ISPField[];
+}
