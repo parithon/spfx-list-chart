@@ -89,7 +89,7 @@ export class DataHelperSP implements IDataHelper {
      * API to get fields from the source
      */
     public getFields(listId: string): Promise<ISPField[]> {
-        let queryUrl = `${this.context.pageContext.web.absoluteUrl}/_api/list(guid'${listId}')/fields?$filter=Hidden eq false`;
+        let queryUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/lists(guid'${listId}')/fields?$filter=Hidden eq false`;
         return this.context.spHttpClient.get(queryUrl, SPHttpClient.configurations.v1)
             .then((response: SPHttpClientResponse) => {
                 return response.json();

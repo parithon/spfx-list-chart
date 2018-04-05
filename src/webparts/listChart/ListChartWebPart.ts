@@ -15,7 +15,8 @@ import {
   IPropertyPaneDropdownOption
 } from '@microsoft/sp-webpart-base';
 import {
-  PropertyFieldListPicker
+  PropertyFieldListPicker,
+  PropertyFieldListPickerOrderBy
 } from '@pnp/spfx-property-controls';
 
 import * as strings from 'ListChartWebPartStrings';
@@ -184,13 +185,13 @@ export default class ListChartWebPart extends BaseClientSideWebPart<IListChartWe
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     let generalOptionsGroup: IPropertyPaneGroup = {
-      groupName: 'General Options',
+      groupName: strings.GeneralOptions.Name,
       groupFields: [
         PropertyPaneTextField('description', {
-          label: 'Web Part Title'
+          label: strings.GeneralOptions.Description
         }),
         PropertyPaneSlider('numCharts', {
-          label: 'Number of Charts',
+          label: strings.GeneralOptions.NumCharts,
           value: this.properties.numCharts,
           min: 1,
           max: 10,
@@ -198,7 +199,7 @@ export default class ListChartWebPart extends BaseClientSideWebPart<IListChartWe
           showValue: true
         }),
         PropertyPaneSlider('maxResults', {
-          label: 'Max # of list items',
+          label: strings.GeneralOptions.MaxResults,
           min: 1,
           max: 5000,
           step: 100,
@@ -213,58 +214,60 @@ export default class ListChartWebPart extends BaseClientSideWebPart<IListChartWe
     for (let i = 0; i < this.properties.numCharts; i++) {
       const chartConfig: string = `chartConfig[${i}]`;
       chartsConfigurationGroups.push({
-        groupName: `Chart ${i + 1} Configuration`,
+        groupName: strings.ChartConfigurationOptions.Name.replace('\{0\}', `${i + 1}`),
         groupFields: [
           PropertyPaneTextField(`${chartConfig}["title"]`, {
-            label: 'Chart Title'
+            label: strings.ChartConfigurationOptions.Title
           }),
           PropertyPaneTextField(`${chartConfig}["description"]`, {
-            label: 'Description'
+            label: strings.ChartConfigurationOptions.Description
           }),
           PropertyPaneChoiceGroup(`${chartConfig}["type"]`, {
-            label: 'Type',
+            label: strings.ChartConfigurationOptions.Type,
             options: this._chartTypeOptions
           }),
           PropertyPaneDropdown(`${chartConfig}["size"]`, {
-            label: 'Size',
+            label: strings.ChartConfigurationOptions.Size,
             options: this._chartSizeOptions
           }),
           PropertyPaneButton(`${chartConfig}["theme"]`, {
             buttonType: PropertyPaneButtonType.Normal,
-            text: 'Generate Theme',
+            text: strings.ChartConfigurationOptions.Theme,
             icon: 'Color',
             onClick: ((val) => {
               return new Date().valueOf();
             })
           }),
           PropertyFieldListPicker(`${chartConfig}["list"]`, {
-            label: 'List',
+            label: strings.ChartConfigurationOptions.List,
             selectedList: this.properties.chartConfig[i].list,
+            includeHidden: false,
+            orderBy: PropertyFieldListPickerOrderBy.Title,
             context: this.context,
             onPropertyChange: this.onPropertyPaneFieldChanged,
             properties: this.properties,
             key: 'listId'
           }),
           PropertyPaneDropdown(`${chartConfig}["col1"]`, {
-            label: 'Label Column',
+            label: strings.ChartConfigurationOptions.Col1,
             selectedKey: this.properties.chartConfig[i].col1,
             options: this.properties.chartConfig[i].columns,
             disabled: this.properties.chartConfig[i].colsDisabled
           }),
           PropertyPaneDropdown(`${chartConfig}["col2"]`, {
-            label: 'Data Column',
+            label: strings.ChartConfigurationOptions.Col2,
             selectedKey: this.properties.chartConfig[i].col2,
             options: this.properties.chartConfig[i].columns,
             disabled: this.properties.chartConfig[i].colsDisabled
           }),
           PropertyPaneDropdown(`${chartConfig}["unique"]`, {
-            label: 'Unique Identifier',
+            label: strings.ChartConfigurationOptions.Unique,
             selectedKey: this.properties.chartConfig[i].unique,
             options: this.properties.chartConfig[i].columns,
             disabled: this.properties.chartConfig[i].colsDisabled
           }),
           PropertyPaneDropdown(`${chartConfig}["act"]`, {
-            label: 'Operation',
+            label: strings.ChartConfigurationOptions.Act,
             selectedKey: this.properties.chartConfig[i].act,
             options: this._chartColActions,
             disabled: this.properties.chartConfig[i].colsDisabled
