@@ -6,7 +6,7 @@ import { escape } from '@microsoft/sp-lodash-subset';
 export default class ListChart extends React.Component<IListChartProps, {}> {
   public render(): React.ReactElement<IListChartProps> {
     return (
-      <div className={ styles.listChart }>
+      <div className={ styles.listCharts }>
       </div>
     );
   }
