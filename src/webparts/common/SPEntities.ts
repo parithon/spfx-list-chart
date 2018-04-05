@@ -32,6 +32,7 @@ export interface ISPViews {
 export interface ISPField {
     Title: string;
     Id: string;
+    ListId: string;
 }
 
 export interface ISPFields {

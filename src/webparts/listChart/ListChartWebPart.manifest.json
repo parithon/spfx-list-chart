@@ -20,7 +20,11 @@
     "description": { "default": "A SharePoint Framework web part that creates a chart based on a lists data." },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "List Chart"
+      "description": "List Chart",
+      "numCharts": 1,
+      "maxResults": 5000,
+      "firstLoad": true,
+      "chartConfig": []
     }
   }]
 }
