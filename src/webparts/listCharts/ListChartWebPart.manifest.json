@@ -16,11 +16,11 @@
   "preconfiguredEntries": [{
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
     "group": { "default": "Other" },
-    "title": { "default": "List Chart" },
+    "title": { "default": "List Charts" },
     "description": { "default": "A SharePoint Framework web part that creates a chart based on a lists data." },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "List Chart"
+      "description": "List Charts"
     }
   }]
 }

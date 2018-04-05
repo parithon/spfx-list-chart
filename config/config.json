@@ -5,15 +5,15 @@
     "list-chart-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/listChart/ListChartWebPart.js",
-          "manifest": "./src/webparts/listChart/ListChartWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/listCharts/ListChartWebPart.js",
+          "manifest": "./src/webparts/listCharts/ListChartWebPart.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "ListChartWebPartStrings": "lib/webparts/listChart/loc/{locale}.js",
+    "ListChartWebPartStrings": "lib/webparts/listCharts/loc/{locale}.js",
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
     "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
