@@ -3,18 +3,12 @@ import { ISPWeb } from "../common/SPEntities";
 import IWebPartContext from "@microsoft/sp-webpart-base/lib/core/IWebPartContext";
 
 export default class SPServiceMock implements ISPService {
-  private readonly _context: IWebPartContext;
-
-  constructor(context: IWebPartContext) {
-    this._context = context;
-  }
-
   public getRootWeb(): Promise<string> {
-    return new Promise<string>(resolve => resolve(this._context.pageContext.web.absoluteUrl));
+    return Promise.resolve('https://localhost/workbench');
   }
 
   public getSites(rootWebUrl: string): Promise<ISPWeb[]> {
-    const _sites: ISPWeb[] = [{Title: this._context.pageContext.web.title, Url: this._context.pageContext.web.absoluteUrl}];
-    return new Promise<ISPWeb[]>(resolve => resolve(_sites));
+    const _sites: ISPWeb[] = [{Title: 'Workbench', Url: 'https://localhost/workbench'}];
+    return Promise.resolve(_sites);
   }
 }
