@@ -32,4 +32,4 @@ obj
 *.scss.ts
 
 # Package lock
-*.lock.json
+*-lock.json
