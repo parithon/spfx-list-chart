@@ -20,7 +20,9 @@
     "description": { "default": "List Charts description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "List Charts"
+      "description": "List Charts",
+      "numCharts": 1,
+      "maxResults": 5000
     }
   }]
 }
