@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "list-charts-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/listCharts/ListChartsWebPart.js",
+          "manifest": "./src/webparts/listCharts/ListChartsWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ListChartsWebPartStrings": "lib/webparts/listCharts/loc/{locale}.js"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.1",
+    "libraryName": "spfx-list-charts",
+    "libraryId": "02ad5ff8-b122-477d-8805-021c1aa651e2",
+    "environment": "spo"
+  }
+}
