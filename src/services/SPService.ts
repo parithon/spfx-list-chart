@@ -7,7 +7,7 @@ import { ISPService, ISPListQueryOptions, ListQueryOrderBy } from "./ISPService"
 import { ISPWeb, ISPList } from "../common/SPEntities";
 
 export default class SPService implements ISPService {
-  public static readonly serviceKey: ServiceKey<SPService> = ServiceKey.create('gfins:SPService', SPService);
+  public static readonly serviceKey: ServiceKey<SPService> = ServiceKey.create('GFINS:SPService', SPService);
 
   private _serviceScope: ServiceScope;
   private _spHttpClient: SPHttpClient;
@@ -17,8 +17,6 @@ export default class SPService implements ISPService {
 
   constructor(serviceScope: ServiceScope) {
     this._serviceScope = serviceScope;
-    // this.spHttpClient = serviceScope.consume(SPHttpClient.serviceKey);
-    // this.pageContext = serviceScope.consume(PageContext.serviceKey);
   }
 
   public getRootWeb(): Promise<string> {
@@ -39,8 +37,11 @@ export default class SPService implements ISPService {
 
   public getSites(rootWebUrl: string): Promise<ISPWeb[]> {
     if (this._sites.length > 0) {
+      console.debug('Getting sites from cache');
       return Promise.resolve(this._sites);
     }
+
+    console.debug('Getting sites from SharePoint');
 
     this.consumeDependencies();
 
@@ -69,11 +70,17 @@ export default class SPService implements ISPService {
   }
 
   public getLists(siteUrl: string, queryOptions?: ISPListQueryOptions): Promise<ISPList[]> {
-    let site = this._sites.filter(site => site.Url === siteUrl)[0];
-    const { Lists } = site;
-    if (site !== null && Lists !== undefined) {
-      return Promise.resolve(Lists);
+    if (this._sites.length > 0) {
+      const site = this._sites.filter(spSite => spSite.Url === siteUrl)[0];
+      if (site !== undefined) {
+        if (site.Lists !== undefined) {
+          console.debug('Getting site lists from cache');
+          return Promise.resolve(site.Lists);
+        }
+      }
     }
+
+    console.debug('Getting site lists from SharePoint');
 
     this.consumeDependencies();
 
@@ -91,20 +98,21 @@ export default class SPService implements ISPService {
     }
 
     if (queryOptions.orderBy !== undefined) {
-      queryUrl += `&$orderby=${(queryOptions.orderBy === ListQueryOrderBy.Id ? 'Id': 'Title')}`
+      queryUrl += `&$orderby=${(queryOptions.orderBy === ListQueryOrderBy.Id ? 'Id': 'Title')}`;
     }
 
     return this._spHttpClient.get(queryUrl, SPHttpClient.configurations.v1)
       .then(response => response.json())
       .then(listCollection => {
-        if (site === null) {
-          const idx = this._sites.push({ Url: siteUrl, Title: '' });
+        let site = this._sites.filter(spSite => spSite.Url === siteUrl)[0];
+        if (site === undefined) {
+          const idx = this._sites.push({ Url: siteUrl, Title: '' }) - 1;
           site = this._sites[idx];
         }
         site.Lists = [];
-        listCollection.map(list => {
+        listCollection.value.map(list => {
           site.Lists.push({ Id: list.Id, Title: list.Title, BaseTemplate: list.BaseTemplate });
-        })
+        });
         return site.Lists;
       });
   }
