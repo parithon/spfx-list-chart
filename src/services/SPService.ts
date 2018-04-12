@@ -81,7 +81,7 @@ export default class SPService implements ISPService {
     }
 
     console.debug('Getting site lists from SharePoint');
-
+    
     this.consumeDependencies();
 
     let queryUrl: string = `${siteUrl}/_api/web/lists??$select=Title,id,BaseTemplate`;
