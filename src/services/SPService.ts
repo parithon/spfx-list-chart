@@ -3,8 +3,8 @@ import { ServiceScope, ServiceKey } from "@microsoft/sp-core-library";
 import { SPHttpClient } from "@microsoft/sp-http";
 import { PageContext } from "@microsoft/sp-page-context";
 
-import { ISPService } from "./ISPService";
-import { ISPWeb } from "../common/SPEntities";
+import { ISPService, ISPListQueryOptions, ListQueryOrderBy } from "./ISPService";
+import { ISPWeb, ISPList } from "../common/SPEntities";
 
 export default class SPService implements ISPService {
   public static readonly serviceKey: ServiceKey<SPService> = ServiceKey.create('gfins:SPService', SPService);
@@ -44,7 +44,7 @@ export default class SPService implements ISPService {
 
     this.consumeDependencies();
 
-    let _queryUrl: string = `${rootWebUrl}/_api/web?select=Title,Url`;
+    let _queryUrl: string = `${rootWebUrl}/_api/web?$select=Title,Url`;
     return this._spHttpClient.get(_queryUrl, SPHttpClient.configurations.v1)
       .then(rootWebResponse => rootWebResponse.json())
       .then((rootWeb: ISPWeb) => {
@@ -65,6 +65,47 @@ export default class SPService implements ISPService {
             });
             return this._sites;
           });
+      });
+  }
+
+  public getLists(siteUrl: string, queryOptions?: ISPListQueryOptions): Promise<ISPList[]> {
+    let site = this._sites.filter(site => site.Url === siteUrl)[0];
+    const { Lists } = site;
+    if (site !== null && Lists !== undefined) {
+      return Promise.resolve(Lists);
+    }
+
+    this.consumeDependencies();
+
+    let queryUrl: string = `${siteUrl}/_api/web/lists??$select=Title,id,BaseTemplate`;
+    let filtered: boolean = false;
+
+    if (queryOptions.baseTemplate !== undefined) {
+      queryUrl += `&$filter=BaseTemplate eq ${queryOptions.baseTemplate}`;
+      filtered = true;
+    }
+
+    if (queryOptions.includeHidden === false) {
+      queryUrl += (filtered ? ' and Hidden eq false' : '&$filter=Hidden eq false');
+      filtered = true;
+    }
+
+    if (queryOptions.orderBy !== undefined) {
+      queryUrl += `&$orderby=${(queryOptions.orderBy === ListQueryOrderBy.Id ? 'Id': 'Title')}`
+    }
+
+    return this._spHttpClient.get(queryUrl, SPHttpClient.configurations.v1)
+      .then(response => response.json())
+      .then(listCollection => {
+        if (site === null) {
+          const idx = this._sites.push({ Url: siteUrl, Title: '' });
+          site = this._sites[idx];
+        }
+        site.Lists = [];
+        listCollection.map(list => {
+          site.Lists.push({ Id: list.Id, Title: list.Title, BaseTemplate: list.BaseTemplate });
+        })
+        return site.Lists;
       });
   }
 
