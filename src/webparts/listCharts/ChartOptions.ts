@@ -38,16 +38,18 @@ export default class ChartOptions {
       }
     }
   };
-  public static DefaultChartConfiguration = (chartDesc: string): IChartConfiguration => {
+  public static DefaultChartConfiguration = (siteUrl: string): IChartConfiguration => {
     var colors: IChartColors = ChartOptions.RandomColors();
     var defConfig: IChartConfiguration = {
       title: 'Chart Title',
-      description: chartDesc,
+      description: 'Chart Description',
       type: 'donut',
       size: 12,
       theme: 'Random',
       bgColors: colors.bgColors,
-      hoverColors: colors.hoverColors
+      hoverColors: colors.hoverColors,
+      siteUrl: siteUrl,
+      dataDisabled: true
     };
     return defConfig;
   }

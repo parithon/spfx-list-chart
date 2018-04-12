@@ -2,9 +2,7 @@ export interface IListChartsWebPartProps {
   description: string;
   numCharts: number;
   maxResults: number;
-  chartConfig: Array<IChartConfiguration>;
-  siteOption: string;
-  otherUrl: string;
+  chartConfig?: Array<IChartConfiguration>;
 }
 
 export interface IChartConfiguration {
@@ -12,6 +10,9 @@ export interface IChartConfiguration {
   description: string;
   type: string;
   size: number;
+  siteUrl?: string;
+  otherUrl?: string;
+  dataDisabled: boolean;
   listId?: string;
   theme: string;
   bgColors: Array<string>;
